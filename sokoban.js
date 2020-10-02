@@ -5,6 +5,8 @@ var posY;
 var boxPosX;
 var boxPosY;
 var key;
+var goalPosArray = [];
+var goalConditionMetArray = [];
 
 function startGame(){
    // gameArea.gameStart();
@@ -23,6 +25,13 @@ function init(){
             if(window.tileMap01.mapGrid[i][j] == 'P'){
                 posX = j;
                 posY = i;
+            }
+
+            if(window.tileMap01.mapGrid[i][j] == 'G'){
+                var goalPosItem = {}
+                goalPosItem.x = j;
+                goalPosItem.y = i;
+                goalPosArray.push(goalPosItem);
             }
             
         }
@@ -117,8 +126,12 @@ function updatePlayer(){
         posY = newPosY;
     }
 
-   
-  renderMap();
+    renderMap();
+
+   if(checkGoalCondition()){
+       alert("You Won!");
+   }
+ 
 }
 
 
@@ -155,4 +168,24 @@ function updateBox( boxPosX, boxPosY){
        return true;
     }
    
+}
+
+
+function checkGoalCondition(){
+
+    goalConditionMetArray = [];
+
+    for(var i = 0; i < goalPosArray.length; i++){
+        var goalPosItem = goalPosArray[i];
+        if(window.tileMap01.mapGrid[goalPosItem.y][goalPosItem.x] == 'B'){
+            goalConditionMetArray.push(true);
+
+            if(goalConditionMetArray.length == goalPosArray.length){
+                return true;
+            }
+        } else{
+            return false;
+        }
+    }
+    return false;
 }
