@@ -56,20 +56,35 @@ function renderMap(){
 
     clear();
 
-     //redo this as a loop
+     //redo this as a loop!!!!!!!!!!!!!!!!!!!!!!!!!
     container.style.gridTemplateColumns = "auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto " ;
     for(var i = 0; i < window.tileMap01.mapGrid.length; i++){
         for(var j = 0; j < window.tileMap01.mapGrid[i].length; j++){
             var item = document.createElement("div");
             item.className = "grid-item";
-            item.textContent = window.tileMap01.mapGrid[i][j];
+            
 
+            if( window.tileMap01.mapGrid[i][j] == 'P'){
+                item.className = "grid-item entity-player";
+            }else if(isGoalPos(j, i) && window.tileMap01.mapGrid[i][j] == 'B'){
+                item.className = "grid-item entity-block-goal";
+                
+            } else if(window.tileMap01.mapGrid[i][j] == 'B'){
+                item.className = "grid-item entity-block";
+            }else if(window.tileMap01.mapGrid[i][j] == 'W'){
+                item.className = "grid-item tile-wall";
+            }else{
+                item.textContent = window.tileMap01.mapGrid[i][j];
+            }
     
             container.appendChild(item);
             
         }
+
+        
        
     }
+
 
    
    
@@ -185,6 +200,15 @@ function checkGoalCondition(){
             }
         } else{
             return false;
+        }
+    }
+    return false;
+}
+
+function isGoalPos(posX, posY){
+    for(var i = 0; i <goalPosArray.length; i++){
+        if(goalPosArray[i].x == posX && goalPosArray[i].y == posY){
+            return true;
         }
     }
     return false;
