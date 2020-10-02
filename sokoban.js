@@ -2,6 +2,8 @@ var player;
 var container
 var posX;
 var posY;
+var boxPosX;
+var boxPosY;
 var key;
 
 function startGame(){
@@ -71,6 +73,8 @@ function clear(){
 function updatePlayer(){
     var newPosX = posX;
     var newPosY = posY;
+    var newBoxPosX;
+    var newBoxPosY;
 
     
     //left arrow
@@ -94,6 +98,18 @@ function updatePlayer(){
     
     if( window.tileMap01.mapGrid[newPosY][newPosX] == 'W'){
         window.tileMap01.mapGrid[posY][posX] = 'P';
+    }else if(window.tileMap01.mapGrid[newPosY][newPosX] == 'B'){
+        if(updateBox(newPosX, newPosY) ){
+           
+            window.tileMap01.mapGrid[posY][posX] = '';
+            window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
+            posX = newPosX;
+            posY = newPosY;
+        } else{
+            window.tileMap01.mapGrid[posY][posX] = 'P';
+        }
+
+        
     }else{
         window.tileMap01.mapGrid[posY][posX] = '';
         window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
@@ -107,3 +123,36 @@ function updatePlayer(){
 
 
 //move box, 
+function updateBox( boxPosX, boxPosY){
+    var newBoxPosX = boxPosX;
+    var newBoxPosY = boxPosY;
+
+     //left arrow
+     if(key && key == 37  ){
+        newBoxPosX = boxPosX-1;
+    }
+    //right arrow
+    if(key && key == 39 ){
+       
+        newBoxPosX = boxPosX+ 1;
+    }
+    //up arrow
+    if(key && key == 38 ){
+        newBoxPosY = boxPosY-1;
+    }
+    //down arrow
+    if(key && key == 40){
+        newBoxPosY = boxPosY+ 1;
+    }
+    if(window.tileMap01.mapGrid[newBoxPosY][newBoxPosX] == 'W' || window.tileMap01.mapGrid[newBoxPosY][newBoxPosX] == 'B'){
+        return false;
+    } else{
+        window.tileMap01.mapGrid[boxPosY][boxPosX] = '';
+        window.tileMap01.mapGrid[newBoxPosY][newBoxPosX] = 'B';
+        boxPosX = newBoxPosX;
+        boxPosY = newBoxPosY;
+        
+       return true;
+    }
+   
+}

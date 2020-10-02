@@ -89,3 +89,4 @@ function updateGameArea(){
     player.newPos();
     player.update();
 }
+
