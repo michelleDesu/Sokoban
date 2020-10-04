@@ -5,17 +5,20 @@ var posY;
 var boxPosX;
 var boxPosY;
 var key;
-var goalPosArray = [];
-var goalConditionMetArray = [];
+var goalPosArray;
+var goalConditionMetArray;
+var alertIsComplete;
 
 function startGame(){
-   // gameArea.gameStart();
-    //player = new gameComponent(50,50,"charcterSprite.png", 0, 0, "image");
+    
     init();
     renderMap();
 }
 
 function init(){
+    goalPosArray = [];
+    goalConditionMetArray = [];
+    alertIsComplete = false;
     container = document.createElement("div");
     container.className = "grid-container";
     document.body.insertBefore(container, document.body.childNodes[0])
@@ -49,6 +52,12 @@ function init(){
         key = false;
        
     })
+
+    //Add button for reloading the game
+    var btn = document.getElementById("btnRestart");
+    btn.innerHTML = "Restart";
+
+    btn.addEventListener("click",reloadPage );
  
 }
 
@@ -56,8 +65,13 @@ function renderMap(){
 
     clear();
 
-     //redo this as a loop!!!!!!!!!!!!!!!!!!!!!!!!!
-    container.style.gridTemplateColumns = "auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto auto " ;
+     var numOfAuto = "";
+    for(var i = 0; i < tileMap01.width; i++){
+        numOfAuto += "auto ";
+        
+    }
+    container.style.gridTemplateColumns = numOfAuto ;
+
     for(var i = 0; i < window.tileMap01.mapGrid.length; i++){
         for(var j = 0; j < window.tileMap01.mapGrid[i].length; j++){
             var item = document.createElement("div");
@@ -73,7 +87,10 @@ function renderMap(){
                 item.className = "grid-item entity-block";
             }else if(window.tileMap01.mapGrid[i][j] == 'W'){
                 item.className = "grid-item tile-wall";
+            }else if(window.tileMap01.mapGrid[i][j] == 'G'){
+                item.className = "grid-item tile-goal";
             }else{
+                item.className = "grid-Item tile-space";
                 item.textContent = window.tileMap01.mapGrid[i][j];
             }
     
@@ -126,6 +143,9 @@ function updatePlayer(){
         if(updateBox(newPosX, newPosY) ){
            
             window.tileMap01.mapGrid[posY][posX] = '';
+            if(isGoalPos(posX,posY)){
+                window.tileMap01.mapGrid[posY][posX] = 'G';
+            }
             window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
             posX = newPosX;
             posY = newPosY;
@@ -136,6 +156,9 @@ function updatePlayer(){
         
     }else{
         window.tileMap01.mapGrid[posY][posX] = '';
+        if(isGoalPos(posX,posY)){
+            window.tileMap01.mapGrid[posY][posX] = 'G';
+        }
         window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
         posX = newPosX;
         posY = newPosY;
@@ -143,8 +166,9 @@ function updatePlayer(){
 
     renderMap();
 
-   if(checkGoalCondition()){
+   if(checkGoalCondition() && alertIsComplete == false){
        alert("You Won!");
+       alertIsComplete = true;
    }
  
 }
@@ -212,4 +236,10 @@ function isGoalPos(posX, posY){
         }
     }
     return false;
+}
+
+
+
+function reloadPage(){
+    window.location.reload();
 }
