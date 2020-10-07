@@ -8,6 +8,7 @@ var key;
 var goalPosArray;
 var goalConditionMetArray;
 var alertIsComplete;
+var stepsTaken;
 
 function startGame(){
     
@@ -19,6 +20,7 @@ function init(){
     goalPosArray = [];
     goalConditionMetArray = [];
     alertIsComplete = false;
+    stepsTaken = 0;
     container = document.createElement("div");
     container.className = "grid-container";
     document.body.insertBefore(container, document.body.childNodes[0])
@@ -45,6 +47,7 @@ function init(){
      window.addEventListener('keydown',function(e){
         key = e.keyCode;
         e.preventDefault();
+        stepsTaken += 1;
     })
    //checks if a key is released
     window.addEventListener('keyup',function(e){
@@ -65,6 +68,11 @@ function renderMap(){
 
     clear();
 
+    //fetches the size of the screen to be used to render out the map properly
+    var innerWidth = window.innerWidth;
+    var innerHeight = window.innerHeight;
+    
+    //concatenates a string of auto to use for the gridTemplateColumns
      var numOfAuto = "";
     for(var i = 0; i < tileMap01.width; i++){
         numOfAuto += "auto ";
@@ -76,8 +84,11 @@ function renderMap(){
         for(var j = 0; j < window.tileMap01.mapGrid[i].length; j++){
             var item = document.createElement("div");
             item.className = "grid-item";
-            
 
+            //sets the height and width of the grid based on the size of the window
+            item.style.height = innerHeight/16;
+            item.style.width = innerWidth/19;
+            
             if( window.tileMap01.mapGrid[i][j] == 'P'){
                 item.className = "grid-item entity-player";
             }else if(isGoalPos(j, i) && window.tileMap01.mapGrid[i][j] == 'B'){

@@ -1,35 +1,47 @@
+body{
+  background-color: #000000;
+}
+
 .grid-container {
     display: grid;
     background-color: #000000;
+    
+    /*
     padding: 10px;
+    */
   }
   .grid-item {
-    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
     border: 1px solid rgba(0, 0, 0, 0.8);
     padding: 20px;
     font-size: 30px;
     text-align: center;
+    height: auto;
+    width: auto;
+    /*
     height: 32px;
     width: 32px;
+    */
   }
 
+
   .entity-player{
-    background: url(character.png) ;
+    background: url(sprites/character.png) ;
     background-size: 100% 100%;
   }
 
   .entity-block{
-    background: url(box_closed.png) ;
+    background: url(sprites/box_closed.png) ;
     background-size: 100% 100%;
   }
 
   .entity-block-goal{
-    background: url(box_open.png) ;
+    background: url(sprites/box_open.png) ;
     background-size: 100% 100%;
   }
 
   .tile-wall{
-    background: url(wall.png) ;
+    background: url(sprites/wall.png) ;
     background-size: 100% 100%;
   }
 
@@ -38,7 +50,7 @@
   }
 
   .tile-goal{
-    background: url(goal.png) ;
+    background: url(sprites/goal.png) ;
     background-size: 100% 100%;
     width: 10px;
     height: 10px;
