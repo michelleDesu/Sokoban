@@ -154,32 +154,54 @@ function updatePlayer(){
     var newPosY = posY;
     var newBoxPosX;
     var newBoxPosY;
-
+    //if any other key than the arrow is pressed this should be false
+    var realMovement = false;
     
     //left arrow
     if(key && key == 37  ){
         newPosX = posX-1;
+        realMovement = true;
     }
     //right arrow
     if(key && key == 39 ){
        
         newPosX = posX+ 1;
+        realMovement = true;
     }
     //up arrow
     if(key && key == 38 ){
         newPosY = posY-1;
+        realMovement = true;
     }
     //down arrow
     if(key && key == 40){
         newPosY = posY+ 1;
+        realMovement = true;
     }
 
-    
-    if( window.tileMap01.mapGrid[newPosY][newPosX] == 'W'){
-        window.tileMap01.mapGrid[posY][posX] = 'P';
-    }else if(window.tileMap01.mapGrid[newPosY][newPosX] == 'B'){
-        if(updateBox(newPosX, newPosY) ){
-           
+    if(realMovement){
+        if( window.tileMap01.mapGrid[newPosY][newPosX] == 'W'){
+            window.tileMap01.mapGrid[posY][posX] = 'P';
+        }else if(window.tileMap01.mapGrid[newPosY][newPosX] == 'B'){
+            if(updateBox(newPosX, newPosY) ){
+            
+                window.tileMap01.mapGrid[posY][posX] = '';
+                if(isGoalPos(posX,posY)){
+                    window.tileMap01.mapGrid[posY][posX] = 'G';
+                }
+                window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
+                posX = newPosX;
+                posY = newPosY;
+                
+                //adds a step everytime the character is moved
+                stepsTaken++;
+            
+            } else{
+                window.tileMap01.mapGrid[posY][posX] = 'P';
+            }
+
+            
+        }else{
             window.tileMap01.mapGrid[posY][posX] = '';
             if(isGoalPos(posX,posY)){
                 window.tileMap01.mapGrid[posY][posX] = 'G';
@@ -190,22 +212,7 @@ function updatePlayer(){
             
             //adds a step everytime the character is moved
             stepsTaken++;
-        } else{
-            window.tileMap01.mapGrid[posY][posX] = 'P';
         }
-
-        
-    }else{
-        window.tileMap01.mapGrid[posY][posX] = '';
-        if(isGoalPos(posX,posY)){
-            window.tileMap01.mapGrid[posY][posX] = 'G';
-        }
-        window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
-        posX = newPosX;
-        posY = newPosY;
-        
-        //adds a step everytime the character is moved
-        stepsTaken++;
     }
 
     renderMap();
