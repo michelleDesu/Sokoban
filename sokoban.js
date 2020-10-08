@@ -9,6 +9,7 @@ var goalPosArray;
 var goalConditionMetArray;
 var alertIsComplete;
 var stepsTaken;
+var stepsCounter;
 
 function startGame(){
     
@@ -17,6 +18,10 @@ function startGame(){
 }
 
 function init(){
+    stepsCounter = document.createElement("h3");
+    stepsCounter.id = "count";
+    stepsCounter.innerHTML = 0;
+
     goalPosArray = [];
     goalConditionMetArray = [];
     alertIsComplete = false;
@@ -68,6 +73,8 @@ function renderMap(){
 
     clear();
 
+    
+
     //fetches the size of the screen to be used to render out the map properly
     var innerWidth = window.innerWidth;
     var innerHeight = window.innerHeight;
@@ -79,6 +86,7 @@ function renderMap(){
         
     }
     container.style.gridTemplateColumns = numOfAuto ;
+
 
     for(var i = 0; i < window.tileMap01.mapGrid.length; i++){
         for(var j = 0; j < window.tileMap01.mapGrid[i].length; j++){
@@ -123,6 +131,10 @@ function clear(){
 }
 
 function updatePlayer(){
+
+   // debugger
+   
+
     var newPosX = posX;
     var newPosY = posY;
     var newBoxPosX;
