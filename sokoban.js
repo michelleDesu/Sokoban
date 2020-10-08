@@ -10,6 +10,7 @@ var goalConditionMetArray;
 var alertIsComplete;
 var stepsTaken;
 var stepsCounter;
+var spanElem;
 
 function startGame(){
     
@@ -18,14 +19,28 @@ function startGame(){
 }
 
 function init(){
-    stepsCounter = document.createElement("h3");
-    stepsCounter.id = "count";
-    stepsCounter.innerHTML = 0;
-
+    
     goalPosArray = [];
     goalConditionMetArray = [];
     alertIsComplete = false;
     stepsTaken = 0;
+    
+    //creates an h3 element in the html
+    stepsCounter = document.createElement("h3");
+    stepsCounter.innerHTML = "Steps Taken: ";
+    stepsCounter.style.color = "ivory";
+
+    //creates a child node with the id of ""count
+    spanElem = document.createElement("span");
+    spanElem.id = "count";
+
+    //append child to the stepsCounter.
+    stepsCounter.appendChild(spanElem);
+
+    spanElem.innerHTML = stepsTaken;
+
+    document.body.appendChild(stepsCounter);
+
     container = document.createElement("div");
     container.className = "grid-container";
     document.body.insertBefore(container, document.body.childNodes[0])
@@ -52,7 +67,6 @@ function init(){
      window.addEventListener('keydown',function(e){
         key = e.keyCode;
         e.preventDefault();
-        stepsTaken += 1;
     })
    //checks if a key is released
     window.addEventListener('keyup',function(e){
@@ -73,7 +87,8 @@ function renderMap(){
 
     clear();
 
-    
+    // sets the new step take each time the map is rendered
+    spanElem.innerHTML = stepsTaken;
 
     //fetches the size of the screen to be used to render out the map properly
     var innerWidth = window.innerWidth;
@@ -112,6 +127,8 @@ function renderMap(){
                 item.className = "grid-Item tile-space";
                 item.textContent = window.tileMap01.mapGrid[i][j];
             }
+
+           
     
             container.appendChild(item);
             
@@ -132,9 +149,7 @@ function clear(){
 
 function updatePlayer(){
 
-   // debugger
-   
-
+  
     var newPosX = posX;
     var newPosY = posY;
     var newBoxPosX;
@@ -172,6 +187,9 @@ function updatePlayer(){
             window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
             posX = newPosX;
             posY = newPosY;
+            
+            //adds a step everytime the character is moved
+            stepsTaken++;
         } else{
             window.tileMap01.mapGrid[posY][posX] = 'P';
         }
@@ -185,6 +203,9 @@ function updatePlayer(){
         window.tileMap01.mapGrid[newPosY][newPosX] = 'P';
         posX = newPosX;
         posY = newPosY;
+        
+        //adds a step everytime the character is moved
+        stepsTaken++;
     }
 
     renderMap();
