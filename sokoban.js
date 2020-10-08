@@ -59,7 +59,6 @@ function init(){
     //Add button for reloading the game
     var btn = document.getElementById("btnRestart");
     btn.innerHTML = "Restart";
-    //btn.style.
 
     btn.addEventListener("click",reloadPage );
  
